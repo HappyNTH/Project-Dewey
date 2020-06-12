@@ -32,9 +32,9 @@ jobs:
         goals: './interface/z_fallout_national_focuses.gfx'
         ideas: './interface/z_fallout_ideas.gfx'
         texticons: './interface/z_fallout_texticons.gfx'
-        events: '/interface/z_fallout_eventpictures.gfx'
+        events: './interface/z_fallout_eventpictures.gfx'
         decisions: './interface/z_fallout_decisions.gfx'
-        favicon: './owb_icon.png'
+        favicon: ''
         title: 'project-dewey'
         modPath: 'gh-pages'
     - name: Commit and push files
