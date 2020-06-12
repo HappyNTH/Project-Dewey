@@ -1,0 +1,52 @@
+name: Generate GitHub Pages
+
+on:
+  push:
+    paths:
+    - '.github/workflows/Generate GitHub Pages.yml'
+  repository_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+    steps:
+    - name: Checkout gitlab master
+      run: |
+        git clone --depth 1 https://HappyNTH:${GITLAB_TOKEN}@gitlab.com/Zapdude/mod.git owb
+        cd owb
+        cp -rf oldworldblues/interface "$GITHUB_WORKSPACE"
+        cp -rf oldworldblues/gfx "$GITHUB_WORKSPACE"
+        cd "$GITHUB_WORKSPACE"
+        rm -rf owb
+    - name: Checkout master branch
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GHPAGES_PUSH_TOKEN }}
+        ref: master
+        path: gh-pages
+    - name: Generate webpage
+      uses: Yard1/hoi4-icon-search-action@master
+      with:
+        goals: './interface/z_fallout_national_focuses.gfx'
+        ideas: './interface/z_fallout_ideas.gfx'
+        texticons: './interface/z_fallout_texticons.gfx'
+        events: '/interface/z_fallout_eventpictures.gfx'
+        decisions: './interface/z_fallout_decisions.gfx'
+        favicon: './owb_icon.png'
+        title: 'project-dewey'
+        modPath: 'gh-pages'
+    - name: Commit and push files
+      run: |
+        cd $GITHUB_WORKSPACE/gh-pages
+        if [ -z "$(git status --porcelain)" ]; then 
+          exit 0
+        fi
+        PYDATE=$(python -c "import datetime; print(datetime.datetime.utcnow())")
+        sed -i "s/@UPDATE_DATE/${PYDATE}/g" index.html
+        git pull --no-rebase
+        git pull --no-rebase
+        git add -A
+        git commit -m "Update webpage (automatic)"
+        git push
