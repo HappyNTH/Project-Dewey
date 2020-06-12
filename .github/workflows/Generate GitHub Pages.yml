@@ -45,6 +45,8 @@ jobs:
         fi
         PYDATE=$(python -c "import datetime; print(datetime.datetime.utcnow())")
         sed -i "s/@UPDATE_DATE/${PYDATE}/g" index.html
+        git config --global user.name 'HappyNTH'
+        git config --global user.email '<>'
         git pull --no-rebase
         git pull --no-rebase
         git add -A
