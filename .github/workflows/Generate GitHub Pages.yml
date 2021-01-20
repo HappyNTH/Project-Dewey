@@ -14,6 +14,7 @@ jobs:
     steps:
     - name: Checkout gitlab master
       run: |
+        git config --global http.postBuffer 1048576000
         git clone --depth 1 https://HappyNTH:${GITLAB_TOKEN}@gitlab.com/Zapdude/mod.git owb
         cd owb
         cp -rf oldworldblues/interface "$GITHUB_WORKSPACE"
