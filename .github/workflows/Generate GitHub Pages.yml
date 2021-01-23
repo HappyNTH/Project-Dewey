@@ -14,10 +14,19 @@ jobs:
     steps:
     - name: Checkout gitlab master
       run: |
+        apt-get install --only-upgrade git
         git config --global http.postBuffer 500M
         git config --global http.maxRequestBuffer 100M
         git config --global core.compression 0
-        git clone --depth 1 https://HappyNTH:${GITLAB_TOKEN}@gitlab.com/Zapdude/mod.git owb
+        max_retry=5
+        counter=0
+        until git clone --depth 1 https://HappyNTH:${GITLAB_TOKEN}@gitlab.com/Zapdude/mod.git owb
+        do
+           sleep 1
+           [[ counter -eq $max_retry ]] && echo "Failed!" && exit 1
+           echo "Trying again. Try #$counter"
+           ((counter++))
+        done
         cd owb
         cp -rf oldworldblues/interface "$GITHUB_WORKSPACE"
         cp -rf oldworldblues/gfx "$GITHUB_WORKSPACE"
