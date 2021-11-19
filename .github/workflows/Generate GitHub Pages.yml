@@ -41,7 +41,7 @@ jobs:
     - name: Generate webpage
       uses: Yard1/hoi4-icon-search-action@master
       with:
-        goals: './interface/z_fallout_national_focuses.gfx'
+        goals: './interface/z_fallout_national_focuses.gfx\n./interface/z_fallout_national_focuses_unique.gfx'
         ideas: './interface/z_fallout_ideas.gfx'
         texticons: './interface/z_fallout_texticons.gfx'
         events: './interface/z_fallout_eventpictures.gfx'
