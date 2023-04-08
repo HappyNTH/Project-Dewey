@@ -5,6 +5,7 @@ on:
     paths:
     - '.github/workflows/Generate GitHub Pages.yml'
   repository_dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
